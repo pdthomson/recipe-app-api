@@ -1,0 +1,17 @@
+# this lets us make a list of files that we want to exclude from the docker context, the docker context is the file run when you run the container this is so we set up files we dont want run when we run the container
+
+# Git
+.git
+.gitignore
+
+# Docker
+.docker
+
+# Python
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+.env/
+.venv/
+venv/
