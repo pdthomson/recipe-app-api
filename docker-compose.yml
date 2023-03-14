@@ -11,7 +11,9 @@ services: #specifying the services to be used, normally has one or more service
     volumes: # way of mapping directory from OUR system to the docker container mapping our app directory to app container, this reflects our code written in real time
       - ./app:/app
     command: # the command used to run the service we are using!
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py wait_for_db && 
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=devdb
