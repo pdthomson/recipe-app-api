@@ -9,8 +9,19 @@ class ModelTests(TestCase):
         password = 'dodokilla'
         user = get_user_model().objects.create_user(
             email=email,
-            password=password,
+            password=password
         )
 
         self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
+
+    def test_new_user_email_normalized(self):
+        sample_emails = [
+            ['beannahdurke@EXAMPLE.com', 'beannahdurke@example.com'],
+            ['Bethussy@EXAMPLE.com', 'Bethussy@example.com'],
+            ['SIAGOTHILVEIRA@EXAMPLE.COM', 'SIAGOTHILVEIRA@example.com'],
+            ['PacharyZrince@eXaMpLe.com', 'PacharyZrince@example.com']
+        ]
+        for email, expected in sample_emails:
+            user = get_user_model().objects.create_user(email, 'sample123')
+            self.assertEqual(user.email, expected)
