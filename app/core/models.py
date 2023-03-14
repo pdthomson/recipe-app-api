@@ -9,6 +9,8 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **extra_fields):
         # extra_fields are any number of Key Word Arguments(kwargs) something like name for instance
+        if not email:
+            raise ValueError('User must have an email!')
         user = self.model(email=self.normalize_email(email), **extra_fields)  # use to create a new user model using custom user
         user.set_password(password)  # set encrypted password
         user.save(using=self._db)  # self._db supports adding multiple databases to your project(this is best practice)
