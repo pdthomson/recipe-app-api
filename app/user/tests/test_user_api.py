@@ -7,12 +7,15 @@ from rest_framework import status
 
 CREATE_USER_URL = reverse('user:create')
 
+
 def create_user(**params):
     """Create and return a new user"""
     return get_user_model().objects.create_user(**params)
 
+
 class PublicUserApiTests(TestCase):
     """Test the public features of the user API"""
+
     def setUp(self):
         self.client = APIClient()
 
@@ -54,5 +57,3 @@ class PublicUserApiTests(TestCase):
             email=payload['email']
         ).exists()
         self.assertFalse(user_exists)
-
-
