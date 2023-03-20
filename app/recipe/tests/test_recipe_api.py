@@ -20,6 +20,7 @@ RECIPES_URL = reverse('recipe:recipe-list')
 def detail_url(recipe_id):
     return reverse('recipe:recipe-detail', args=[recipe_id])
 
+
 def create_recipe(user, **params):
     """Create and return a sample recipe"""
     defaults = {
@@ -34,9 +35,11 @@ def create_recipe(user, **params):
     recipe = Recipe.objects.create(user=user, **defaults)
     return recipe
 
+
 def create_user(**params):
     """Create User"""
     return get_user_model().objects.create_user(**params)
+
 
 class PublicRecipeApiTests(TestCase):
     def setUp(self):
@@ -53,7 +56,10 @@ class PrivateRecipeApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = create_user(email='user@example.com', password='password123')
+        self.user = create_user(
+            email='user@example.com',
+            password='password123'
+        )
         self.client.force_authenticate(self.user)
 
     def test_retrieve_recipes(self):
@@ -71,7 +77,10 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_recipe_list_limited_to_user(self):
         """Test list of recipes is limited to an authenticated user"""
-        other_user = create_user(email='other@example.com', password='otherpassword123')
+        other_user = create_user(
+            email='other@example.com',
+            password='otherpassword123'
+        )
         create_recipe(user=other_user)
         create_recipe(user=self.user)
 
@@ -105,7 +114,8 @@ class PrivateRecipeApiTests(TestCase):
         recipe = Recipe.objects.get(id=res.data['id'])
         for k, v in payload.items():
             self.assertEqual(getattr(recipe, k), v)
-            # getattr is a python function, makes it easy to get the values we want as we could not use dot notation
+            # getattr is a python function, makes it easy to
+            # get the values we want as we could not use dot notation
         self.assertEqual(recipe.user, self.user)
 
     def test_partial_update(self):
@@ -154,7 +164,10 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_updating_user_returns_error(self):
         """Test changing a recipes user returns an error"""
-        new_user = create_user(email='new_user@example.com', password='test123')
+        new_user = create_user(
+            email='new_user@example.com',
+            password='test123'
+        )
         recipe = create_recipe(user=self.user)
 
         payload = {'user': new_user.id}
@@ -174,7 +187,10 @@ class PrivateRecipeApiTests(TestCase):
         self.assertFalse(Recipe.objects.filter(id=recipe.id).exists())
 
     def test_delete_other_users_recipe_error(self):
-        new_user = create_user(email='new-user@example.com', password='test123')
+        new_user = create_user(
+            email='new-user@example.com',
+            password='test123'
+        )
         recipe = create_recipe(user=new_user)
 
         url = detail_url(recipe.id)
