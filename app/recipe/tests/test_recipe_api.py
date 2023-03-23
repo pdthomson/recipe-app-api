@@ -331,7 +331,7 @@ class PrivateRecipeApiTests(TestCase):
             ).exists()
             self.assertTrue(exists)
 
-    def test_ingredient_on_update(self):
+    def test_create_ingredient_on_update(self):
         recipe = create_recipe(user=self.user)
 
         payload = {'ingredients': [{'name': 'Limes'}]}
@@ -340,7 +340,7 @@ class PrivateRecipeApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         new_ingredient = Ingredient.objects.get(user=self.user, name='Limes')
-        self.assertEqual(new_ingredient, recipe.ingredients.all())
+        self.assertIn(new_ingredient, recipe.ingredients.all())
 
     def test_update_recipe_assign_ingredient(self):
         ingredient1 = Ingredient.objects.create(user=self.user, name='Pepper')
