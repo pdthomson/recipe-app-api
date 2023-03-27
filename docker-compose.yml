@@ -10,6 +10,7 @@ services: #specifying the services to be used, normally has one or more service
       - "8000:8000"
     volumes: # way of mapping directory from OUR system to the docker container mapping our app directory to app container, this reflects our code written in real time
       - ./app:/app
+      - dev-static-data:vol/web
     command: # the command used to run the service we are using!
       sh -c "python manage.py wait_for_db && 
              python manage.py migrate &&
@@ -33,3 +34,4 @@ services: #specifying the services to be used, normally has one or more service
 
 volumes:
   dev-db-data:
+  dev-static-data:
