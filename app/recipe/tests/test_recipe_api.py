@@ -398,7 +398,8 @@ class PrivateRecipeApiTests(TestCase):
     def test_filter_by_ingredients(self):
         recipe = create_recipe(user=self.user, title='Posh Beans on Toast')
         recipe2 = create_recipe(user=self.user, title='Chicken Cacciatore')
-        ingredient = Ingredient.objects.create(user=self.user, name='Feta Cheese')
+        ingredient = Ingredient.objects.create(
+            user=self.user, name='Feta Cheese')
         ingredient2 = Ingredient.objects.create(user=self.user, name='Chicken')
         recipe.ingredients.add(ingredient)
         recipe2.ingredients.add(ingredient2)
